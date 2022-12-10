@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Webgis 2: Geoserver Layer | Maylinda E</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device.width, initial-scale=1.0" />
+    <link rel="stylesheet" href="libs/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="css/mymap.css" />
+
+    <script src="libs/leaflet/leaflet.js"></script>
+  </head>
+  <body>
+    <div id="mapdiv"></div>
+    <script>
+      var mymap = L.map("mapdiv").setView([-7.66, 110.399], 11);
+
+      var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy:<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        subdomains: ["a", "b", "c"],
+      });
+
+      osm.addTo(mymap);
+
+      var batas_adm = L.tileLayer.wms("/geoserver/wms?", {
+        layers: "projekakhirme:batas_administrasi",
+        format: "image/png",
+        transparent: true,
+      });
+      batas_adm.addTo(mymap);
+
+      var curah_hujan = L.tileLayer.wms("/geoserver/wms?", {
+        layers: "projekakhirme:curah_hujan",
+        format: "image/png",
+        transparent: true,
+      });
+      curah_hujan.addTo(mymap);
+
+      var lereng = L.tileLayer.wms("/geoserver/wms?", {
+        layers: "projekakhirme:kemiringan_lereng",
+        format: "image/png",
+        transparent: true,
+      });
+      lereng.addTo(mymap);
+      var basemap = {
+        OpenStreetMap: osm,
+      };
+
+      var guna_lahan = L.tileLayer.wms("/geoserver/wms?", {
+        layers: "projekakhirme:penggunaan_lahan",
+        format: "image/png",
+        transparent: true,
+      });
+      guna_lahan.addTo(mymap);
+
+      var jenis_tanah = L.tileLayer.wms("/geoserver/wms?", {
+        layers: "projekakhirme:jenis_tanah",
+        format: "image/png",
+        transparent: true,
+      });
+      jenis_tanah.addTo(mymap);
+
+      var drainase = L.tileLayer.wms("/geoserver/wms?", {
+        layers: "projekakhirme:saluran_drainase",
+        format: "image/png",
+        transparent: true,
+      });
+      drainase.addTo(mymap);
+
+      var kesesuaian = L.tileLayer.wms("/geoserver/wms?", {
+        layers: "projekakhirme:kesesuaian_lahan_sleman",
+        format: "image/png",
+        transparent: true,
+      });
+      kesesuaian.addTo(mymap);
+
+      var basemap = {
+        OpenStreetMap: osm,
+      };
+
+      var overlaymap = {
+        "Batas Administrasi": batas_adm,
+        "Curah Hujan": curah_hujan,
+        "Kemiringan Lereng": lereng,
+        "Penggunaan Lahan": guna_lahan,
+        "Jenis Tanah": jenis_tanah,
+        "Saluran Drainase": drainase,
+        "Kesesuaian Lahan": kesesuaian,
+      };
+
+      L.control.layers(basemap, overlaymap).addTo(mymap);
+    </script>
+  </body>
+</html>
